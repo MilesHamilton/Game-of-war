@@ -2,6 +2,9 @@
 let suits = ['hearts', 'spades', 'clubs', 'diamonds']
 let ranks = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
 let score = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+let player1Deck = []
+let player2Deck = []
+let tableCards = []
 // create a card class that house's the properties suit, rank, and score
 class Card {
   constructor(suit, rank, score) {
@@ -15,15 +18,13 @@ class Card {
 class Deck {
   constructor() {
     this.pack = []
-
-
   }
-
+ 
   // create deck using a method and nested loops and push into array 
-  createPack(suits, rank, score) {
+  createPack(suits, ranks, score) {
     for (let i = 0; i < suits.length; i++) {
       for (let j = 0; j < ranks.length; j++) {
-        this.pack.push(new Card([suits[i]], [ranks[j]],[score[j]]))
+        this.pack.push(new Card([suits[i]], [ranks[j]], [score[j]]))
       }
     }
     return this.pack
@@ -47,35 +48,47 @@ class Deck {
 
 
   // Create a function that takes two cards from the deck array and returns them
-  draw() {
-    let hand = []
-    while (hand.length < 2) {
-      hand.push(this.pack.pop())
+  showCardsDeck1() {
+    while (hand.length < 1) {
+      tableCards.push(this.player1Deck.pop())
     }
-    return hand
+    return tableCards
+  }
+  showCardsDeck2() {
+    while (hand.length < 1) {
+      tableCards.push(this.player2Deck.pop())
+    }
+    return tableCards
   }
 
   // create a function where the cards are distributed between players
 
-  splitPack (player1, player2) {
-    for (let i = 0; i < .length; i++) {
-      const element = array[i];
+  splitPack () {
+    for (let i = 0; i < this.pack.length / 2; i++) {
+      player1Deck.push(this.pack[i])
+      player2Deck.push(this.pack[this.pack.length - i - 1])
+      
       
     }
-    
+    return player1Deck, player2Deck
   }
 
-  // create a function where the game logs the value of the drawn cards as a score 
-  score() {
+  Turn () {
+      while (this.showCards)
+    if(player1Deck || player2Deck === 0) {
 
-
+    } else if (player1Deck > player2Deck) {
+      tableCards.push(player1Deck)
+    }else if (player1Deck < player2Deck) {
+      tableCards.push(player2Deck)
+    }
   }
 
 }
 
 
-
 let deck = new Deck()
 deck.createPack(suits, ranks, score);
 deck.shuffle()
-console.log(deck)
+deck.splitPack()
+console.log(deck.shuffle())
