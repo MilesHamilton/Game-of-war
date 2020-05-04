@@ -76,28 +76,46 @@ class Deck {
     return this.player1Deck, this.player2Deck
   }
 
-displayCard() {
-  
-}
-
-  turn() {
-    for (let i = 0; i < this.showCardsDeck1.length, this.showCardsDeck2.length; i++) {
-
-
-      if (player1Deck || player2Deck === 0) {
-
-      } else if (showCardsDeck1 > showCardsDeck2) {
-        this.tableCards1.tableCards2.push(this.player1Deck)
-        console.log("player one wins! player 1 has" `${this.player1Deck}`, "cards remaining")
-      } else if (showCardsDeck1 < showCardsDeck2) {
-        this.tableCards1.tableCards2.push(this.player2Deck)
-        console.log("player one wins! player 2 has" `${this.player2Deck}`, "cards remaining")
-      }
-    }
+  gameover () {
+    alert("Game Over")
   }
-  
 
+
+
+
+  // starts the game. pushes winnning hands(tablecards) to winners decks(playerdeck)
+  turn() { 
+      this.showCardsDeck1()
+      console.log(this.showCardsDeck1())
+      this.showCardsDeck2()
+      console.log(this.showCardsDeck2())
+    
+
+      if (this.tableCards1 === this.tableCards2) {
+        console.log("WAR")
+        this.showCardsDeck1()
+        this.showCardsDeck2()
+
+      } else if (this.tableCards1 > this.tableCards2) {
+        this.shuffle(this.tableCards1.tableCards1)
+        this.tableCards1.push(this.player1Deck)
+        this.tableCards2.push(this.player1Deck)
+        console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
+
+      } else if (this.tableCards1 < this.tableCards2) {
+        this.shuffle(this.tableCards1.tableCards2)
+        this.tableCards1.push(this.player2Deck)
+        this.tableCards2.push(this.player2Deck)
+        console.log("player 2 wins! player 2 has", `${this.player2Deck.length}` , "cards remaining")
+
+      } else if (this.player1Deck || this.player2Deck === 0 ) {
+        this.gameover()
+      } else {
+        this.turn()
+      }
+  }
 }
+
 
 
 let deck = new Deck()
@@ -110,7 +128,5 @@ deck.showCardsDeck1()
 // console.log(deck.showCardsDeck2())
 deck.showCardsDeck2()
 // console.log(deck.showCardsDeck1())
-console.log(deck.tableCards1)
-console.log(deck.tableCards2)
+
 deck.turn()
-// console.log(deck.turn())
