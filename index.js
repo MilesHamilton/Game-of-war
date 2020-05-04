@@ -62,15 +62,15 @@ class Deck {
 
   // a function that takes a cards from a deck array and returns them
   showCardsDeck1() {
-    while (this.tableCards1.length < 1) {
-      this.tableCards1.push(this.player1Deck.pop())
-    }
+    
+    this.tableCards1.push(this.player1Deck.pop())
+
     return this.tableCards1
   }
+
   showCardsDeck2() {
-    while (this.tableCards2.length < 1) {
-      this.tableCards2.push(this.player2Deck.pop())
-    }
+   this.tableCards2.push(this.player2Deck.pop())
+
     return this.tableCards2
   }
 
@@ -81,16 +81,15 @@ class Deck {
   }
 
 
-  //  war () {
-  //   for (let i = 0; i < 2; i++) {
-  //     this.player1Deck[0].pop
-  //     this.player2Deck[0].pop
-  //      this.tableCards1.concat((this.player1Deck))
-  //       this.tableCards2.concat(this.player2Deck)
-  //   }
-  //     return this.tableCards1, this.tableCards2
+   war () {
+     for (let i = 0; i < 3; i++) {
+     this.showCardsDeck1()
+     this.showCardsDeck2()
+     this.turn()
+    }
+   }
 
-  //  }
+   
 
 
 
@@ -102,22 +101,26 @@ class Deck {
       this.showCardsDeck2()
       console.log(this.showCardsDeck2()[0].rank)
 
-      if (this.tableCards1[0].score === this.tableCards2[0].score) { // if tie
+      if (this.tableCards1[this.tableCards1.length-1].score === this.tableCards2[this.tableCards2.length-1].score) { // if tie
         console.log("WAR")
+        this.war()
 
-
-      } else if (this.tableCards1[0].score > this.tableCards2[0].score) { //if player 1 wins
+      } else if (this.tableCards1[this.tableCards1.length-1].score > this.tableCards2[this.tableCards2.length-1].score) { //if player 1 wins
       
 
-        this.player1Deck.unshift(this.tableCards1, this.tableCards2)
+        this.player1Deck.unshift.apply(this.player1Deck, this.tableCards1)
+        this.player1Deck.unshift.apply(this.player1Deck, this.tableCards2)
         console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
+        console.log("player 2 has", `${this.player2Deck.length}`, "cards remaining")
         this.tableCards1 = []
         this.tableCards2 = []
 
-      } else if (this.tableCards1[0].score < this.tableCards2[0].score) { // if player 2 wins
+      } else if (this.tableCards1[this.tableCards1.length-1].score < this.tableCards2[this.tableCards1.length-1].score) { // if player 2 wins
 
-        this.player2Deck.unshift(this.tableCards1, this.tableCards2)
+        this.player2Deck.unshift.apply(this.player2Deck, this.tableCards1)
+        this.player2Deck.unshift.apply(this.player2Deck, this.tableCards2)
         console.log("player 2 wins! player 2 has", `${this.player2Deck.length}`, "cards remaining")
+        console.log("player 1 has", `${this.player1Deck.length}`, "cards remaining")
         this.tableCards1 = []
         this.tableCards2 = []
 
@@ -141,11 +144,11 @@ deck.createPack(suits, ranks, score);
 deck.shuffle()
 deck.splitPack()
 
-// console.log(deck.player1Deck[0].score)
+console.log(deck.player1Deck[0].score)
 console.log(deck.player2Deck.length)
-// deck.showCardsDeck1()
-// console.log(deck.showCardsDeck2())
-// deck.showCardsDeck2()
-// console.log(deck.showCardsDeck1())
-// deck.turn()
-// deck.war()
+deck.showCardsDeck1()
+console.log(deck.showCardsDeck2())
+deck.showCardsDeck2()
+console.log(deck.showCardsDeck1())
+deck.turn()
+deck.war()
