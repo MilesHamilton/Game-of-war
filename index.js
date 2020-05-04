@@ -19,7 +19,7 @@ class Deck {
     this.pack = []
     this.player1Deck = []
     this.player2Deck = []
-    this.tableCards1 = [] 
+    this.tableCards1 = []
     this.tableCards2 = []
   }
 
@@ -27,7 +27,7 @@ class Deck {
   createPack(suits, ranks, score) {
     for (let i = 0; i < suits.length; i++) {
       for (let j = 0; j < ranks.length; j++) {
-        this.pack.push(new Card([suits[i]], [ranks[j]], [score[j]]))
+        this.pack.push(new Card(suits[i], ranks[j], score[j]))
       }
     }
     return this.pack
@@ -48,7 +48,17 @@ class Deck {
     return this.pack
   }
 
+  // create a function where the cards are distributed between players
 
+  splitPack() {
+    for (let i = 0; i < this.pack.length / 2; i++) {
+      this.player1Deck.push(this.pack[i])
+      this.player2Deck.push(this.pack[this.pack.length - -1 - i])
+
+
+    }
+    return this.player1Deck, this.player2Deck
+  }
 
   // a function that takes a cards from a deck array and returns them
   showCardsDeck1() {
@@ -64,55 +74,65 @@ class Deck {
     return this.tableCards2
   }
 
-  // create a function where the cards are distributed between players
 
-  splitPack() {
-    for (let i = 0; i < this.pack.length / 2; i++) {
-      this.player1Deck.push(this.pack[i])
-      this.player2Deck.push(this.pack[this.pack.length - i - 1])
-
-
-    }
-    return this.player1Deck, this.player2Deck
-  }
 
   gameover() {
     console.log("Game Over")
   }
 
 
+  //  war () {
+  //   for (let i = 0; i < 2; i++) {
+  //     this.player1Deck[0].pop
+  //     this.player2Deck[0].pop
+  //      this.tableCards1.concat((this.player1Deck))
+  //       this.tableCards2.concat(this.player2Deck)
+  //   }
+  //     return this.tableCards1, this.tableCards2
+
+  //  }
 
 
-  
-  turn() {                               // starts game
-    this.showCardsDeck1()
-    console.log(this.showCardsDeck1()[0].rank)
-    this.showCardsDeck2()
-    console.log(this.showCardsDeck2()[0].rank)
 
 
-    if (this.tableCards1[0].score === this.tableCards2[0].score) { // if tie
-      console.log("WAR")
+  turn() { // starts game
+    while (this.player1Deck.length > 0 && this.player2Deck.length > 0) {
       this.showCardsDeck1()
+      console.log(this.showCardsDeck1()[0].rank)
       this.showCardsDeck2()
+      console.log(this.showCardsDeck2()[0].rank)
 
-    } else if (this.tableCards1[0].score > this.tableCards2[0].score) {   //if player 1 wins
-  
-      this.player1Deck.unshift(this.tableCards1, this.tableCards2)
-      console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
+      if (this.tableCards1[0].score === this.tableCards2[0].score) { // if tie
+        console.log("WAR")
 
-    } else if (this.tableCards1[0].score < this.tableCards2[0].score) {   // if player 2 wins
 
-      this.player2Deck.unshift(this.tableCards1, this.tableCards2)
-      console.log("player 2 wins! player 2 has", `${this.player2Deck.length}`, "cards remaining")
+      } else if (this.tableCards1[0].score > this.tableCards2[0].score) { //if player 1 wins
+      
 
-    } else if ((this.player1Deck.length || this.player2Deck.length) === 0) {    //end of game
-      this.gameover()
-    } else {
-      this.turn()
+        this.player1Deck.unshift(this.tableCards1, this.tableCards2)
+        console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
+        this.tableCards1 = []
+        this.tableCards2 = []
+
+      } else if (this.tableCards1[0].score < this.tableCards2[0].score) { // if player 2 wins
+
+        this.player2Deck.unshift(this.tableCards1, this.tableCards2)
+        console.log("player 2 wins! player 2 has", `${this.player2Deck.length}`, "cards remaining")
+        this.tableCards1 = []
+        this.tableCards2 = []
+
+      } else if ((this.player1Deck.length || this.player2Deck.length) === 0) { //end of game
+        this.gameover()
+      } else {
+        this.turn()
+      }
     }
   }
+
 }
+
+
+
 
 
 
@@ -122,9 +142,10 @@ deck.shuffle()
 deck.splitPack()
 
 // console.log(deck.player1Deck[0].score)
-// console.log(deck.player2Deck.length)
-deck.showCardsDeck1()
+console.log(deck.player2Deck.length)
+// deck.showCardsDeck1()
 // console.log(deck.showCardsDeck2())
-deck.showCardsDeck2()
+// deck.showCardsDeck2()
 // console.log(deck.showCardsDeck1())
-deck.turn()
+// deck.turn()
+// deck.war()
