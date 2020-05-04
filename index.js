@@ -19,7 +19,7 @@ class Deck {
     this.pack = []
     this.player1Deck = []
     this.player2Deck = []
-    this.tableCards1 = []
+    this.tableCards1 = [] 
     this.tableCards2 = []
   }
 
@@ -53,7 +53,7 @@ class Deck {
   // a function that takes a cards from a deck array and returns them
   showCardsDeck1() {
     while (this.tableCards1.length < 1) {
-       this.tableCards1.push(this.player1Deck.pop())
+      this.tableCards1.push(this.player1Deck.pop())
     }
     return this.tableCards1
   }
@@ -76,43 +76,41 @@ class Deck {
     return this.player1Deck, this.player2Deck
   }
 
-  gameover () {
-    alert("Game Over")
+  gameover() {
+    console.log("Game Over")
   }
 
 
 
 
-  // starts the game. pushes winnning hands(tablecards) to winners decks(playerdeck)
-  turn() { 
+  
+  turn() {                               // starts game
+    this.showCardsDeck1()
+    console.log(this.showCardsDeck1()[0].rank)
+    this.showCardsDeck2()
+    console.log(this.showCardsDeck2()[0].rank)
+
+
+    if (this.tableCards1[0].score === this.tableCards2[0].score) { // if tie
+      console.log("WAR")
       this.showCardsDeck1()
-      console.log(this.showCardsDeck1())
       this.showCardsDeck2()
-      console.log(this.showCardsDeck2())
-    
 
-      if (this.tableCards1 === this.tableCards2) {
-        console.log("WAR")
-        this.showCardsDeck1()
-        this.showCardsDeck2()
+    } else if (this.tableCards1[0].score > this.tableCards2[0].score) {   //if player 1 wins
+  
+      this.player1Deck.unshift(this.tableCards1, this.tableCards2)
+      console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
 
-      } else if (this.tableCards1 > this.tableCards2) {
-        this.shuffle(this.tableCards1.tableCards1)
-        this.tableCards1.push(this.player1Deck)
-        this.tableCards2.push(this.player1Deck)
-        console.log("player 1 wins! player 1 has", `${this.player1Deck.length}`, "cards remaining")
+    } else if (this.tableCards1[0].score < this.tableCards2[0].score) {   // if player 2 wins
 
-      } else if (this.tableCards1 < this.tableCards2) {
-        this.shuffle(this.tableCards1.tableCards2)
-        this.tableCards1.push(this.player2Deck)
-        this.tableCards2.push(this.player2Deck)
-        console.log("player 2 wins! player 2 has", `${this.player2Deck.length}` , "cards remaining")
+      this.player2Deck.unshift(this.tableCards1, this.tableCards2)
+      console.log("player 2 wins! player 2 has", `${this.player2Deck.length}`, "cards remaining")
 
-      } else if (this.player1Deck || this.player2Deck === 0 ) {
-        this.gameover()
-      } else {
-        this.turn()
-      }
+    } else if ((this.player1Deck.length || this.player2Deck.length) === 0) {    //end of game
+      this.gameover()
+    } else {
+      this.turn()
+    }
   }
 }
 
@@ -122,11 +120,11 @@ let deck = new Deck()
 deck.createPack(suits, ranks, score);
 deck.shuffle()
 deck.splitPack()
-console.log(deck.player1Deck)
-console.log(deck.player2Deck)
+
+// console.log(deck.player1Deck[0].score)
+// console.log(deck.player2Deck.length)
 deck.showCardsDeck1()
 // console.log(deck.showCardsDeck2())
 deck.showCardsDeck2()
 // console.log(deck.showCardsDeck1())
-
 deck.turn()
