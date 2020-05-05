@@ -21,6 +21,8 @@ class Deck {
     this.player2Deck = []
     this.tableCards1 = []
     this.tableCards2 = []
+    this.warCards1 = []
+    this.warCards2 = []
   }
 
   // deck using a method and nested loops and push into array 
@@ -53,7 +55,7 @@ class Deck {
   splitPack() {
     for (let i = 0; i < this.pack.length / 2; i++) {
       this.player1Deck.push(this.pack[i])
-      this.player2Deck.push(this.pack[this.pack.length  - i -1])
+      this.player2Deck.push(this.pack[this.pack.length - i - 1])
 
 
     }
@@ -64,47 +66,77 @@ class Deck {
   showCardsDeck1() {
     this.tableCards1 = []
     this.tableCards1.push(this.player1Deck.pop())
-   return this.tableCards1
+    return this.tableCards1
   }
 
-  showCardsDeck2() { 
+  showCardsDeck2() {
     this.tableCards2 = []
     this.tableCards2.push(this.player2Deck.pop())
     return this.tableCards2
   }
 
+  war() { //game of war minigame
+    this.warCards1 = []
+    this.warCards2 = []
+    this.warCards1.push(this.player1Deck.pop())
+    this.warCards1.push(this.player1Deck.pop())
+    this.warCards2.push(this.player2Deck.pop())
+    this.warCards2.push(this.player2Deck.pop())
+    if (this.warCards1[1].score > this.warCards2[1].score) {
+      this.player1Deck.unshift(...this.warCards1, ...this.warCards2, this.tableCards1, this.tableCards2)
+      console.log(this.player1Deck())
+      this.game()
+    } else if (this.warCards1[1].score < this.warCards2[1].score) {
+      this.player2Deck.unshift(...this.warCards1, ...this.warCards2, this.tableCards1, this.tableCards2)
+      console.log(this.player2Deck())
+      this.game()
+    } else if (this.warCards1[1].score === this.warCards2[1].score) {
+      this.war()
 
 
+    }
+  }
 
-game () {
-  console.log(this.player1Deck)
-  this.showCardsDeck1()
-  this.showCardsDeck2()
-  console.log(this.showCardsDeck1()[0].rank, this.showCardsDeck2()[0].rank)
-console.log(this.tableCards1, this.tableCards2)
 
-  if ( this.tableCards1[0].score > this.tableCards2[0].score) {
-    this.player1Deck.unshift(this.tableCards2, this.tableCards1)
-    console.log(`player one has ${this.player1Deck.length} cards left` )
-    console.log(`player two has ${this.player2Deck.length} cards left` )
-    
-  } else if ( this.tableCards1[0].score < this.tableCards2[0].score) {
-    this.player2Deck.unshift(this.tableCards2, this.tableCards1)
-    console.log(`player one has ${this.player1Deck.length} cards left` )
-    console.log(`player two has ${this.player2Deck.length} cards left` )
+  // to do list:add game of war function 
+  //            make the while loop work
+  //            show turns 
+  //            
+
+  game() {//{ while (this.player1Deck.length > 3 && 3 < this.player2Deck.length)
+    console.log(this.player1Deck)
+    this.showCardsDeck1()
+    this.showCardsDeck2()
+    console.log(this.showCardsDeck1()[0].rank, this.showCardsDeck2()[0].rank)
+    console.log(this.tableCards1, this.tableCards2)
+
+    if (this.tableCards1[0].score > this.tableCards2[0].score) {
+      this.player1Deck.unshift(...this.tableCards2, ...this.tableCards1)
+      console.log(`player one has ${this.player1Deck.length} cards left`)
+      console.log(`player two has ${this.player2Deck.length} cards left`)
+
+    } else if (this.tableCards1[0].score < this.tableCards2[0].score) {
+      this.player2Deck.unshift(...this.tableCards2, ...this.tableCards1)  //add or remove spread operators 
+      console.log(`player one has ${this.player1Deck.length} cards left`)
+      console.log(`player two has ${this.player2Deck.length} cards left`)
+
+    } else if (this.tableCards1[0].score === this.tableCards2[0].score) {
+      console.log("W A R")
+      this.war()
+
+    }
+  //}
 }
 }
-}
 
- 
 let deck = new Deck()
 deck.createPack(suits, ranks, score);
 deck.shuffle()
 // deck.splitPack()
 console.log(deck.splitPack())
-deck.showCardsDeck1()
+deck.showCardsDeck1() //do these have to be called?
 deck.showCardsDeck2()
-console.log(deck.showCardsDeck1())
-console.log(deck.showCardsDeck2())
+// console.log(deck.showCardsDeck1())
+// console.log(deck.showCardsDeck2())
 deck.game()
-// deck.war()
+deck.war()
