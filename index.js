@@ -83,12 +83,16 @@ class Deck {
     this.warCards2.push(this.player2Deck.pop())
     this.warCards2.push(this.player2Deck.pop())
     if (this.warCards1[1].score > this.warCards2[1].score) {
-      this.player1Deck.unshift(...this.warCards1, ...this.warCards2, this.tableCards1, this.tableCards2)
-      console.log(this.player1Deck())
+      this.player1Deck.unshift(this.warCards1[0], this.warCards2[0], this.tableCards1[0], this.tableCards2[0])
+      console.log(`player one dominates! ${this.player1Deck.length} cards left`)
+      console.log(`player two has ${this.player2Deck.length} cards left`)
+      console.log(this.player1Deck)
       this.game()
     } else if (this.warCards1[1].score < this.warCards2[1].score) {
-      this.player2Deck.unshift(...this.warCards1, ...this.warCards2, this.tableCards1, this.tableCards2)
-      console.log(this.player2Deck())
+      this.player2Deck.unshift(this.warCards1[0], this.warCards2[0], this.tableCards1[0], this.tableCards2[0])
+      console.log(`player one has! ${this.player1Deck.length} cards left`)
+      console.log(`player two dominates! ${this.player2Deck.length} cards left`)
+      console.log(this.player2Deck)
       this.game()
     } else if (this.warCards1[1].score === this.warCards2[1].score) {
       this.war()
@@ -103,30 +107,41 @@ class Deck {
   //            show turns 
   //            
 
-  game() {//{ while (this.player1Deck.length > 3 && 3 < this.player2Deck.length)
-    console.log(this.player1Deck)
-    this.showCardsDeck1()
-    this.showCardsDeck2()
-    console.log(this.showCardsDeck1()[0].rank, this.showCardsDeck2()[0].rank)
-    console.log(this.tableCards1, this.tableCards2)
+  game() {
+    for (let i = 3; i < this.player1Deck.length, this.player2Deck.length; i++) {
+      this.showCardsDeck1()[0]
+      this.showCardsDeck2()[0]
+      console.log(this.showCardsDeck1()[0].rank, this.showCardsDeck2()[0].rank)
 
-    if (this.tableCards1[0].score > this.tableCards2[0].score) {
-      this.player1Deck.unshift(...this.tableCards2, ...this.tableCards1)
-      console.log(`player one has ${this.player1Deck.length} cards left`)
-      console.log(`player two has ${this.player2Deck.length} cards left`)
+      if (this.tableCards1[0].score > this.tableCards2[0].score) {
+        
+        this.player1Deck.unshift(this.tableCards2.shift(), this.tableCards1.shift())
+        console.log(this.tableCards1, this.tableCards2)
+        console.log(`player one wins this bout!  ${this.player1Deck.length} cards left`)
+        console.log(`player two has ${this.player2Deck.length} cards left`)
+        console.log(this.player1Deck)
+        console.log(this.player2Deck)
+      } else if (this.tableCards1[0].score < this.tableCards2[0].score) {
+        
+        this.player2Deck.unshift(this.tableCards2[0], this.tableCards1[0]) 
+        console.log(this.tableCards1, this.tableCards2)
+        console.log(`player one has ${this.player1Deck.length} cards left`)
+        console.log(`player two wins this bout! ${this.player2Deck.length} cards left`)
+        console.log(this.player1Deck)
+        console.log(this.player2Deck)
+      } else if (this.tableCards1[0].score === this.tableCards2[0].score) {
+        console.log("W A R")
+        this.war()
 
-    } else if (this.tableCards1[0].score < this.tableCards2[0].score) {
-      this.player2Deck.unshift(...this.tableCards2, ...this.tableCards1)  //add or remove spread operators 
-      console.log(`player one has ${this.player1Deck.length} cards left`)
-      console.log(`player two has ${this.player2Deck.length} cards left`)
+      } else if (this.player2Deck.length > 3) {
+        console.log("player 1 WINS!")
+      } else if (this.player1Deck.length > 3) {
+        console.log("player 2 WINS!")
+      }
 
-    } else if (this.tableCards1[0].score === this.tableCards2[0].score) {
-      console.log("W A R")
-      this.war()
 
     }
-  //}
-}
+  }
 }
 
 let deck = new Deck()
@@ -139,4 +154,4 @@ deck.showCardsDeck2()
 // console.log(deck.showCardsDeck1())
 // console.log(deck.showCardsDeck2())
 deck.game()
-deck.war()
+// deck.war()
