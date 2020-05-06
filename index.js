@@ -66,12 +66,14 @@ class Deck {
   showCardsDeck1() {
     this.tableCards1 = []
     this.tableCards1.push(this.player1Deck.pop())
+    console.log(this.tableCards1)
     return this.tableCards1
   }
 
   showCardsDeck2() {
     this.tableCards2 = []
-    this.tableCards2.push(this.player2Deck.pop())
+    this.tableCards2.push(this.player2Deck.pop()) // need to confirm that this is functioning properly (spoiler: it is)
+    console.log(this.tableCards2)
     return this.tableCards2
   }
 
@@ -88,10 +90,10 @@ class Deck {
       console.log(`player two has ${this.player2Deck.length} cards left`)
       console.log(this.player1Deck)
       this.game()
-    } else if (this.warCards1[1].score < this.warCards2[1].score) {
+    } else if (this.warCards2[1].score < this.warCards1[1].score) {
       this.player2Deck.unshift(this.warCards1[0], this.warCards2[0], this.tableCards1[0], this.tableCards2[0])
-      console.log(`player one has! ${this.player1Deck.length} cards left`)
       console.log(`player two dominates! ${this.player2Deck.length} cards left`)
+      console.log(`player one has! ${this.player1Deck.length} cards left`)
       console.log(this.player2Deck)
       this.game()
     } else if (this.warCards1[1].score === this.warCards2[1].score) {
@@ -109,34 +111,36 @@ class Deck {
 
   game() {
     for (let i = 3; i < this.player1Deck.length, this.player2Deck.length; i++) {
-      this.showCardsDeck1()[0]
-      this.showCardsDeck2()[0]
+      // this.showCardsDeck1()[0]
+      // this.showCardsDeck2()[0]
       console.log(this.showCardsDeck1()[0].rank, this.showCardsDeck2()[0].rank)
-
-      if (this.tableCards1[0].score > this.tableCards2[0].score) {
+      
+      if (this.tableCards1[0].score > this.tableCards2[0].score) {  // somehow this win condition makes player 2 toss 2 cards
         
-        this.player1Deck.unshift(this.tableCards2.shift(), this.tableCards1.shift())
+        this.player2Deck.unshift(this.tableCards2[0], this.tableCards1[0])  
+        console.log(this.player1Deck)
+        console.log(this.player2Deck)
         console.log(this.tableCards1, this.tableCards2)
         console.log(`player one wins this bout!  ${this.player1Deck.length} cards left`)
         console.log(`player two has ${this.player2Deck.length} cards left`)
-        console.log(this.player1Deck)
-        console.log(this.player2Deck)
       } else if (this.tableCards1[0].score < this.tableCards2[0].score) {
         
-        this.player2Deck.unshift(this.tableCards2[0], this.tableCards1[0]) 
+        this.player2Deck.unshift(this.tableCards2.shift(), this.tableCards1.shift()) 
         console.log(this.tableCards1, this.tableCards2)
-        console.log(`player one has ${this.player1Deck.length} cards left`)
         console.log(`player two wins this bout! ${this.player2Deck.length} cards left`)
+        console.log(`player one has ${this.player1Deck.length} cards left`)
         console.log(this.player1Deck)
         console.log(this.player2Deck)
       } else if (this.tableCards1[0].score === this.tableCards2[0].score) {
         console.log("W A R")
         this.war()
 
-      } else if (this.player2Deck.length > 3) {
+      } else if (this.player2Deck[0].score < 3) {
         console.log("player 1 WINS!")
-      } else if (this.player1Deck.length > 3) {
+        break
+      } else if (this.player1Deck[0].score < 3) {
         console.log("player 2 WINS!")
+        break
       }
 
 
@@ -144,13 +148,15 @@ class Deck {
   }
 }
 
+
+
 let deck = new Deck()
 deck.createPack(suits, ranks, score);
 deck.shuffle()
 // deck.splitPack()
 console.log(deck.splitPack())
-deck.showCardsDeck1() //do these have to be called?
-deck.showCardsDeck2()
+// deck.showCardsDeck1() //these are able to call themselves? 
+// deck.showCardsDeck2()
 // console.log(deck.showCardsDeck1())
 // console.log(deck.showCardsDeck2())
 deck.game()
